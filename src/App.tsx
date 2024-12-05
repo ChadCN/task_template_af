@@ -3,11 +3,13 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 import TemplateListView from "./view/templateListView/templateListView";
 import TemplateDetailView from "./view/templateDetailView/templateDetailView";
 import { templateStore } from "./mobx/templateStore";
+import GlobalStyle from "./globalStyle";
 
 const router = createBrowserRouter([
   {
     path: "/*",
     element: <>
+      <GlobalStyle />
       <Outlet />
     </>,
     children: [

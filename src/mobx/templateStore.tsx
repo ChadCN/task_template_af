@@ -40,7 +40,7 @@ class TemplateStore {
         {
             id: "1",
             name: "Template 1",
-            icon: "😀",
+            icon: "🌚",
             description: "Description 1",
             statusIds: ['status1', 'status2', 'status3', 'status4', 'status5'],
             createdAt: "2021-09-01",
@@ -49,7 +49,7 @@ class TemplateStore {
         {
             id: "2",
             name: "Template 2",
-            icon: "😃",
+            icon: "📺",
             description: "Description 2",
             statusIds: ['status1', 'status2', 'status3', 'status4', 'status5'],
             createdAt: "2021-09-02",
