@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { RouterProvider } from "react-router";
+import { createBrowserRouter, Outlet } from "react-router-dom";
+import TemplateListView from "./view/templateListView/templateListView";
+import TemplateDetailView from "./view/templateDetailView/templateDetailView";
+import { templateStore } from "./mobx/templateStore";
+
+const router = createBrowserRouter([
+  {
+    path: "/*",
+    element: <>
+      <Outlet />
+    </>,
+    children: [
+      {
+        path: "",
+        element: <TemplateListView templateStore={templateStore}/>
+      },
+      {
+        path:"detail/:templateId",
+        element: <TemplateDetailView templateStore={templateStore} editMode={true} />
+      },
+      {
+        path: "new",
+        element: <TemplateDetailView templateStore={templateStore} editMode={false} />
+      }
+    ]
+  },
+]);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RouterProvider router={router} />
   );
 }
 
