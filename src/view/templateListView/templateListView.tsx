@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 import { TemplateStore, Template } from "../../mobx/templateStore";
 import {
@@ -103,7 +103,7 @@ const TemplateListView: React.FC<TemplateListViewProps> = ({ templateStore }) =>
         return `${count} ${count === 1 ? SINGLE_COUNT_TEXT : PLURAL_COUNT_TEXT}`;
     };
 
-    const headerBar = () => {
+    const HeaderRow = () => {
         return (
             <HeaderBar>
                 <Header>{HEADER_TITLE_TEXT}</Header>
@@ -115,66 +115,69 @@ const TemplateListView: React.FC<TemplateListViewProps> = ({ templateStore }) =>
         );
     };
 
-    const templateTable = () => {
+    const FilterRow = () => {
         return (
-                <>
-                    <TopBar>
-                        <ItemCount>{getItemText(templateStore.templatesCount)}</ItemCount>
-                        <SearchWrapper>
-                            <SearchIcon size={14} />
-                            <SearchInput
-                                type="text"
-                                placeholder={SEARCH_PLACEHOLDER}
-                                value={templateStore.templateSearchKey}
-                                onChange={(e) => templateStore.templateSearchKey = e.target.value}
-                            />
-                        </SearchWrapper>
-                    </TopBar>
-                    <Table>
-                        <Thead>
-                            <tr>
-                                <Th></Th>
-                                <Th>{COLUMN_ONE_TITLE}</Th>
-                                <Th>{COLUMN_TWO_TITLE}</Th>
-                                <Th>{COLUMN_THREE_TITLE}</Th>
-                                <Th>{COLUMN_FOUR_TITLE}</Th>
-                                <Th></Th>
-                            </tr>
-                        </Thead>
-                        <tbody>
-                            {templateStore.filteredTemplates.map(template => (
-                                <Tr key={template.id}>
-                                    <TdWithRightBorderLine onClick={(e) => e.stopPropagation()}>
-                                        <Checkbox
-                                            type="checkbox"
-                                            checked={selectedTemplates.includes(template.id)}
-                                            onChange={(e) => handleCheckboxChange(e, template.id)}
-                                        />
-                                    </TdWithRightBorderLine>
-                                    <Td onClick={() => handleRowClick(template)}>{template.name}</Td>
-                                    <Td onClick={() => handleRowClick(template)}>{template.icon}</Td>
-                                    <Td onClick={() => handleRowClick(template)}>{template.description}</Td>
-                                    <Td onClick={() => handleRowClick(template)}>
-                                        <StatusList>
-                                            {template.statusIds.map((statusId) => (
-                                                <StatusTagView key={statusId} templateStore={templateStore} statusId={statusId} />
-                                            ))}
-                                        </StatusList>
-                                    </Td>
-                                    <TdWithLeftBorderLine>
-                                        <DeleteButton onClick={(e) => handleDelete(template, e)}>
-                                            {DELETE_BUTTON_TEXT}
-                                        </DeleteButton>
-                                    </TdWithLeftBorderLine>
-                                </Tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </>
+            <TopBar>
+                <ItemCount>{getItemText(templateStore.templatesCount)}</ItemCount>
+                <SearchWrapper>
+                    <SearchIcon size={14} />
+                    <SearchInput
+                        type="text"
+                        placeholder={SEARCH_PLACEHOLDER}
+                        value={templateStore.templateSearchKey}
+                        onChange={(e) => templateStore.templateSearchKey = e.target.value}
+                    />
+                </SearchWrapper>
+            </TopBar>
+        );
+    };
+
+    const TemplateTable = () => {
+        return (
+                <Table>
+                    <Thead>
+                        <tr>
+                            <Th></Th>
+                            <Th>{COLUMN_ONE_TITLE}</Th>
+                            <Th>{COLUMN_TWO_TITLE}</Th>
+                            <Th>{COLUMN_THREE_TITLE}</Th>
+                            <Th>{COLUMN_FOUR_TITLE}</Th>
+                            <Th></Th>
+                        </tr>
+                    </Thead>
+                    <tbody>
+                        {templateStore.filteredTemplates.map(template => (
+                            <Tr key={template.id}>
+                                <TdWithRightBorderLine onClick={(e) => e.stopPropagation()}>
+                                    <Checkbox
+                                        type="checkbox"
+                                        checked={selectedTemplates.includes(template.id)}
+                                        onChange={(e) => handleCheckboxChange(e, template.id)}
+                                    />
+                                </TdWithRightBorderLine>
+                                <Td onClick={() => handleRowClick(template)}>{template.name}</Td>
+                                <Td onClick={() => handleRowClick(template)}>{template.icon}</Td>
+                                <Td onClick={() => handleRowClick(template)}>{template.description}</Td>
+                                <Td onClick={() => handleRowClick(template)}>
+                                    <StatusList>
+                                        {template.statusIds.map((statusId) => (
+                                            <StatusTagView key={statusId} templateStore={templateStore} statusId={statusId} />
+                                        ))}
+                                    </StatusList>
+                                </Td>
+                                <TdWithLeftBorderLine>
+                                    <DeleteButton onClick={(e) => handleDelete(template, e)}>
+                                        {DELETE_BUTTON_TEXT}
+                                    </DeleteButton>
+                                </TdWithLeftBorderLine>
+                            </Tr>
+                        ))}
+                    </tbody>
+                </Table>
                 );
     };
 
-    const emptyTable = () => {
+    const EmptyTable = () => {
         return (
             <EmptyPlaceholder>
                 <EmptyTitle>{EMPTY_PLACEHOLDER_TITLE}</EmptyTitle>
@@ -191,9 +194,10 @@ const TemplateListView: React.FC<TemplateListViewProps> = ({ templateStore }) =>
 
     return (
         <Container>
-            {headerBar()}
-            {hasMoreThanOneTemplate ? templateTable() : emptyTable() }
-            {showConfirmPopup && (
+            { HeaderRow() }
+            { FilterRow() }
+            { hasMoreThanOneTemplate ? TemplateTable() : EmptyTable() }
+            { showConfirmPopup && (
                 <ConfirmPopupView
                     title={DELETE_CONFIRMATION_TITLE}
                     message={DELETE_CONFIRMATION}
@@ -201,7 +205,7 @@ const TemplateListView: React.FC<TemplateListViewProps> = ({ templateStore }) =>
                     onConfirm={confirmDelete}
                     onCancel={cancelDelete}
                 />
-            )}
+            ) }
         </Container>
     );
 };

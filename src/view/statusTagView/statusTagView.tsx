@@ -15,9 +15,9 @@ const StatusTagView: React.FC<StatusTagViewProps> = ({ templateStore, statusId }
     if (color === undefined) return <></>;
     
     return (
-        <TagContainer backgroundColor={color.value}>
-            <ColorSquare color={color.value} />
-            <Label color={color.value}>{status.name}</Label>
+        <TagContainer $bgColor={color.value}>
+            <ColorSquare $color={color.value} />
+            <Label $color={color.value}>{status.name}</Label>
         </TagContainer>
     );
 }
