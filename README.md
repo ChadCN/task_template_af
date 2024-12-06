@@ -6,6 +6,20 @@ A simple task template project.
 
 This repository contains a React-based task template management system that allows users to create, manage and track task templates with customizable statuses and emoji indicators.
 
+## Screenshots
+
+### Template List View
+![Template List](./assets/list.png)
+*Home page showing all task templates with search functionality*
+
+### Template Detail View
+![Template Detail](./assets/detail.png)
+*Template editing interface*
+
+### Storybook
+![Emoji Selection](./assets/storybook.png)
+*visualization*
+
 ## Getting Started
 
 ### Prerequisites
